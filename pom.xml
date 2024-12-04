@@ -9,10 +9,11 @@
   <name>SRI Maven Webapp</name>
   <packaging>war</packaging>
 
+  <!-- Propiedades -->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.target>22</maven.compiler.target>
-    <maven.compiler.source>22</maven.compiler.source>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -71,8 +72,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <version>3.11.0</version>
         <configuration>
-          <source>22</source>
-          <target>22</target>
+          <source>21</source>
+          <target>21</target>
           <generatedSourcesDirectory>${project.build.directory}/generated-sources/wsimport</generatedSourcesDirectory>
         </configuration>
       </plugin>
@@ -105,7 +106,6 @@
           <xnocompile>true</xnocompile>
         </configuration>
       </plugin>
-
     </plugins>
   </build>
 </project>

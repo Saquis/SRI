@@ -1,14 +1,24 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <title>Resultado de la Consulta</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de la Consulta</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<h1>Información del Contribuyente</h1>
-<p>Nombre: ${rucInfo.nombre}</p>
-<p>Actividad Económica: ${rucInfo.actividadEconomica}</p>
-<p>Estado: ${rucInfo.estado}</p>
-<p>Dirección: ${rucInfo.direccion}</p>
+<header>
+    <h1>Resultados de la Consulta</h1>
+</header>
+
+<main>
+    <!-- Mostrar resultados -->
+    <p>Estado: ${estado}</p>
+    <p>Nombre del Contribuyente: ${nombre}</p>
+    <p>Tipo de Contribuyente: ${tipo}</p>
+
+    <a href="consulta.jsp">Realizar otra consulta</a>
+</main>
 </body>
 </html>
+
