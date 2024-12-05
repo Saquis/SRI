@@ -4,36 +4,62 @@ import com.sri.soap.RecepcionComprobantesOffline;
 import com.sri.soap.RecepcionComprobantesOfflineService;
 import com.sri.soap.RespuestaSolicitud;
 
-import java.util.Base64;
+import java.nio.charset.StandardCharsets;
 
 public class SRIService {
 
-    public RespuestaSolicitud validarComprobante(String xmlBase64) {
+    public RespuestaSolicitud validarComprobante(String ruc) {
         try {
+            // Validar el RUC
+            if (ruc == null || !ruc.matches("\\d{13}")) {
+                System.err.println("El RUC proporcionado no es válido.");
+                return null;
+            }
+
+            // Generar el XML con el RUC
+            String xml = generarXML(ruc);
+            System.out.println("XML generado:\n" + xml);
+
+            // Convertir el XML a bytes
+            byte[] xmlBytes = xml.getBytes(StandardCharsets.UTF_8);
+
             // Crear una instancia del servicio
             RecepcionComprobantesOfflineService service = new RecepcionComprobantesOfflineService();
             RecepcionComprobantesOffline port = service.getRecepcionComprobantesOfflinePort();
 
-            // Limpiar el string Base64 para eliminar espacios y caracteres no válidos
-            String sanitizedBase64 = xmlBase64.replaceAll("\\s+", "");
+            // Habilitar logs SOAP
+            System.setProperty("com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump", "true");
 
-            // Decodificar el XML en Base64 a byte[]
-            byte[] decodedXml = Base64.getDecoder().decode(sanitizedBase64);
+            // Llamar al servicio con los bytes del XML
+            RespuestaSolicitud respuesta = port.validarComprobante(xmlBytes);
 
-            // Llamar al servicio con los bytes decodificados
-            RespuestaSolicitud response = port.validarComprobante(decodedXml);
+            // Verificar la respuesta
+            if (respuesta != null) {
+                System.out.println("Estado de la respuesta: " + respuesta.getEstado());
+            } else {
+                System.err.println("La respuesta del servicio es nula.");
+            }
 
-            return response;
-        } catch (IllegalArgumentException e) {
-            System.err.println("Error al decodificar Base64: " + e.getMessage());
-            System.err.println("Entrada Base64 proporcionada: " + xmlBase64);
-            return null;
+            return respuesta;
+
         } catch (Exception e) {
+            System.err.println("Error al procesar el RUC: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
     }
+
+    private String generarXML(String ruc) {
+        // Generar el XML con el RUC
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<comprobante>\n" +
+                "    <ruc>" + ruc + "</ruc>\n" +
+                "</comprobante>";
+    }
 }
+
+
+
 
 
 

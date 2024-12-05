@@ -27,9 +27,9 @@
     <form action="ConsultaRucServlet" method="post" onsubmit="return validarRUC()">
         <label for="ruc">Ingrese el RUC:</label>
         <input type="text" id="ruc" name="ruc" required>
-
         <button type="submit">Consultar</button>
     </form>
 </main>
 </body>
 </html>
+
